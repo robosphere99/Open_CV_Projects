@@ -7,7 +7,7 @@ from cvzone.HandTrackingModule import HandDetector
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
 cap.set(4, 480)
-imgBackground = cv2.imread(r"C:\Users\anila\OneDrive\Documents\Jarvis\Control_Home\Screens\BG.png")
+imgBackground = cv2.imread(r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Control_Home\Screens\BG.png")
 disp = np.copy(imgBackground)
 h, w = 300, 300  # Appliance image size
 selectionSpeed = 7  # Speed of ellipse animation
@@ -18,7 +18,7 @@ counterPause = 0
 detector = HandDetector(detectionCon=0.8, maxHands=1)
 
 # Load appliance icons
-folderPathIcons = r"C:\Users\anila\OneDrive\Documents\Jarvis\Control_Home\Icons"
+folderPathIcons = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Control_Home\Icons"
 listImgIconsPath = os.listdir(folderPathIcons)
 listImgIcons = [cv2.imread(os.path.join(folderPathIcons, imgPath)) for imgPath in listImgIconsPath]
 

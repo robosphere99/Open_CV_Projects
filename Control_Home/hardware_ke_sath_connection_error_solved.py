@@ -3,14 +3,27 @@ import cv2
 import numpy as np
 from cvzone.HandTrackingModule import HandDetector
 import socket
+import time
 
 # NodeMCU Setup
-# nodemcu_ip = "192.168.29.5"  # Replace with your NodeMCU IP
-nodemcu_ip = "192.168.29.5"
+nodemcu_ip = "192.168.29.5"  # Replace with your NodeMCU IP
 nodemcu_port = 80
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((nodemcu_ip, nodemcu_port))
-client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+
+# Function to connect to NodeMCU
+def connect_to_nodemcu():
+    while True:
+        try:
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.connect((nodemcu_ip, nodemcu_port))
+            client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            print("Connected to NodeMCU")
+            return client_socket
+        except Exception as e:
+            print(f"Connection failed: {e}. Retrying in 2 seconds...")
+            time.sleep(2)
+
+# Initial connection
+client_socket = connect_to_nodemcu()
 
 # Setup
 cap = cv2.VideoCapture(0)
@@ -69,18 +82,6 @@ while True:
                 selectedAppliance = 3
 
         # Animation for toggling appliance
-        # if counter > 0:
-        #     counter += 1
-        #     y, x = positions[selectedAppliance]
-        #     cv2.ellipse(imgBackground, (x + w // 2, y + h // 2), (103, 103), 0, 0,
-        #                 counter * selectionSpeed, (0, 255, 0), 20)
-        #     if counter * selectionSpeed > 360:
-        #         applianceStates[selectedAppliance] = 1 - applianceStates[selectedAppliance]  # Toggle state
-        #         data = f"{applianceStates}"  # Send states as a list
-        #         client_socket.send(data.encode())
-        #         counter = 0
-        #         selectedAppliance = -1
-        #         counterPause = 1
         if counter > 0:
             counter += 1
             y, x = positions[selectedAppliance]
@@ -89,12 +90,16 @@ while True:
         if counter * selectionSpeed > 360:
             applianceStates[selectedAppliance] = 1 - applianceStates[selectedAppliance]  # Toggle state
             data = f"{applianceStates}\n"  # Send states as a list
-            client_socket.sendall(data.encode())  # Send data
-            print("Data sent:", data)
+            try:
+                client_socket.sendall(data.encode())  # Send data
+                print("Data sent:", data)
+            except (socket.error, ConnectionResetError, ConnectionAbortedError):
+                print("Connection lost. Reconnecting...")
+                client_socket.close()  # Close the old socket
+                client_socket = connect_to_nodemcu()  # Reconnect
             counter = 0
             selectedAppliance = -1
             counterPause = 1
-
 
     # Pause to avoid multiple toggles
     if counterPause > 0:

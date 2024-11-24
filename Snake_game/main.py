@@ -139,7 +139,7 @@ class SnakeGameClass:
 
 
 # game = SnakeGameClass("C:/Users/anila/OneDrive/Documents/Jarvis/Snake_game/Donut.png")
-game = SnakeGameClass([f"C:/Users/anila/OneDrive/Documents/Jarvis/Snake_game/{i}.png" for i in range(1, 8)])
+game = SnakeGameClass([f"C:/Users/anila/OneDrive/Documents/OpeenCV_Automation/Snake_game/{i}.png" for i in range(1, 8)])
 
 
 while True:

@@ -8,6 +8,7 @@ detector = pm.poseDetector()
 count = 0
 dir = 0
 pTime = 0
+
 while True:
     success, img = cap.read()
     img = cv2.resize(img, (1280, 720))

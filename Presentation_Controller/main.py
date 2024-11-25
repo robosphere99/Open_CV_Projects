@@ -6,7 +6,7 @@ import numpy as np
 # Parameters
 width, height = 1280,720    
 gestureThreshold = 300
-folderPath = r"C:\Users\anila\OneDrive\Documents\Jarvis\Presentation_Controller\Presentation"
+folderPath = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Presentation_Controller\Presentation"
 
 # Camera Setup
 cap = cv2.VideoCapture(0)

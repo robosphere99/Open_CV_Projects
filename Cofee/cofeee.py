@@ -7,11 +7,11 @@ import time
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
 cap.set(4, 480)
-imgBackground = cv2.imread(r"C:\Users\anila\OneDrive\Documents\Jarvis\Cofee\Resources\Background.png")
+imgBackground = cv2.imread(r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Cofee\Resources\Background.png")
 disp = np.copy(imgBackground)
 
 # Importing all the mode images to a list
-folderPathModes = r"C:\Users\anila\OneDrive\Documents\Jarvis\Cofee\Resources\Modes"
+folderPathModes = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Cofee\Resources\Modes"
 listImgModesPath = os.listdir(folderPathModes)
 listImgModes = []
 for imgModePath in listImgModesPath:
@@ -19,7 +19,7 @@ for imgModePath in listImgModesPath:
 print(listImgModes)
 
 # Importing all the icons to a list
-folderPathIcons = r"C:\Users\anila\OneDrive\Documents\Jarvis\Cofee\Resources\Icons"
+folderPathIcons = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Cofee\Resources\Icons"
 listImgIconsPath = os.listdir(folderPathIcons)
 listImgIcons = []
 for imgIconsPath in listImgIconsPath:

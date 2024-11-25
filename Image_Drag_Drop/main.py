@@ -34,7 +34,7 @@ class DragImg():
         if ox < cursor[0] < ox + w and oy < cursor[1] < oy + h:
             self.posOrigin = cursor[0] - w // 2, cursor[1] - h // 2
 
-path = r"C:\Users\anila\OneDrive\Documents\Jarvis\Image_Drag_Drop\Images\ImagesPNG"
+path = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Image_Drag_Drop\Images\ImagesJPG"
 myList = os.listdir(path)
 print(myList)
 

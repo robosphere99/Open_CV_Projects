@@ -2,9 +2,9 @@ import os
 import cv2
 import numpy as np
 from cvzone.HandTrackingModule import HandDetector
-
-import requests  # Import requests library
-
+import requests
+import threading  # For periodic refresh
+import time
 # Setup
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
@@ -27,35 +27,42 @@ listImgIcons = [cv2.imread(os.path.join(folderPathIcons, imgPath)) for imgPath i
 # Appliance positions
 positions = [(150, 730), (150, 980), (400, 730), (400, 980)]
 
-# Function to update appliance status using API
+# API: Update single device status
 def update_device_status(device_id, status):
-    url = f"http://localhost/onlineswitch/api/update_device_status.php?api_key=f371f4ceb3bd8c67525db4b726007f0e&device_id={device_id}&status={status}"
+    url = f"http://localhost/onlineswitch/api/update_device_status.php?api_key=752b167ae5fc91cd6715b7c0c9edbc8b&device_id={device_id}&status={status}"
     try:
         response = requests.get(url)
         print(f"Device {device_id} status updated to {status}. Response: {response.text}")
     except requests.exceptions.RequestException as e:
         print(f"Error updating device {device_id} status: {e}")
 
-# Function to get all devices status using API
-def get_all_devices_status():
-    url = "http://localhost/onlineswitch/api/get_all_devices_status_using_api.php?api_key=f371f4ceb3bd8c67525db4b726007f0e"
+# API: Fetch all devices' statuses
+def fetch_device_status():
+    global applianceStates
+    url = "http://localhost/onlineswitch/api/get_all_devices_status_using_api.php?api_key=752b167ae5fc91cd6715b7c0c9edbc8b"
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            print("Device status:", response.json())
+            devices = response.json()
+            for i, device in enumerate(devices):
+                applianceStates[i] = 1 if device["status"] == "on" else 0
+            print("Device states refreshed:", applianceStates)
         else:
             print("Failed to fetch device status")
     except requests.exceptions.RequestException as e:
         print(f"Error fetching device status: {e}")
 
-# Function to update all devices status using API
-def update_all_devices_status(devices):
-    url = f"http://localhost/onlineswitch/api/update_all_devices_status.php?api_key=f371f4ceb3bd8c67525db4b726007f0e&devices={devices}"
-    try:
-        response = requests.get(url)
-        print(f"All devices status updated. Response: {response.text}")
-    except requests.exceptions.RequestException as e:
-        print(f"Error updating all devices status: {e}")
+# Periodic status refresh thread
+def periodic_refresh():
+    while True:
+        fetch_device_status()
+        # cv2.waitKey(5000)  # Refresh every 5 seconds
+        time.sleep(5)
+# Start periodic refresh in a separate thread
+refresh_thread = threading.Thread(target=periodic_refresh, daemon=True)
+refresh_thread.start()
+print("Periodic refresh thread started")  # Debugging
+
 
 while True:
     success, img = cap.read()
@@ -101,7 +108,7 @@ while True:
         if counter * selectionSpeed > 360:
             applianceStates[selectedAppliance] = 1 - applianceStates[selectedAppliance]  # Toggle state
             update_device_status(selectedAppliance + 1, "on" if applianceStates[selectedAppliance] else "off")  # Update API
-           
+            print("Data updated:", applianceStates)
             counter = 0
             selectedAppliance = -1
             counterPause = 1
@@ -118,4 +125,5 @@ while True:
     if key == ord('q'):
         break
 
-# client_socket.close()
+cap.release()
+cv2.destroyAllWindows()

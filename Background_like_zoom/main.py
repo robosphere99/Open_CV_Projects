@@ -18,7 +18,7 @@ print("Background images found:", background_images)  # List the images being lo
 current_background_index = 0  # Default to first background
 
 # Open webcam or video stream
-cap = cv2.VideoCapture(0)  # Use the camera (0) or replace with video file if needed
+cap = cv2.VideoCapture("http://192.168.29.69:4747/video?640x480")  # Use the camera (0) or replace with video file if needed
 
 if not cap.isOpened():
     print("Error: Unable to open webcam")

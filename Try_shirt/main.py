@@ -4,16 +4,17 @@ import cvzone
 import cv2
 from cvzone.PoseModule import PoseDetector
 
-cap = cv2.VideoCapture(r"C:\Users\anila\OneDrive\Documents\Jarvis\Try_shirt\Resources\Videos\1.mp4")
+# cap = cv2.VideoCapture(r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Try_shirt\Resources\Videos\1.mp4")
+cap = cv2.VideoCapture(2)
 detector = PoseDetector()
 
-shirtFolderPath = r"C:\Users\anila\OneDrive\Documents\Jarvis\Try_shirt\Resources\Shirts"
+shirtFolderPath = r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Try_shirt\Resources\Shirts"
 listShirts = os.listdir(shirtFolderPath)
 print(listShirts)
 fixedRatio = 262 / 190  # widthOfShirt/widthOfPoint11to12
 shirtRatioHeightWidth = 581 / 440
 imageNumber = 0
-imgButtonRight = cv2.imread(r"C:\Users\anila\OneDrive\Documents\Jarvis\Try_shirt\Resources\button.png", cv2.IMREAD_UNCHANGED)
+imgButtonRight = cv2.imread(r"C:\Users\anila\OneDrive\Documents\OpeenCV_Automation\Try_shirt\Resources\button.png", cv2.IMREAD_UNCHANGED)
 if imgButtonRight is None:
     print("Error: Right button image not loaded.")
     exit()

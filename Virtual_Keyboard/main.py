@@ -35,7 +35,7 @@ def detect_keypress(finger_tip_x, finger_tip_y, keys):
     return None
 
 # Initialize the webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 while True:
     ret, frame = cap.read()

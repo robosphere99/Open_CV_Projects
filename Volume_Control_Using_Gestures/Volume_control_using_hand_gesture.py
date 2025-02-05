@@ -22,7 +22,7 @@ min_vol = vol_range[0]
 max_vol = vol_range[1]
 
 # Initialize webcam feed
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 # Hand gesture tracking with MediaPipe
 with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:

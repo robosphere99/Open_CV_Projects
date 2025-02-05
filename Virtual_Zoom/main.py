@@ -1,13 +1,13 @@
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 cap.set(3, 1280)
 cap.set(4, 720)
 
 detector = HandDetector(detectionCon=0.7)
 startDist = None
-scale = 0
+scale = 10
 cx, cy = 500,500
 while True:
     success, img = cap.read()

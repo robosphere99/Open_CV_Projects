@@ -41,7 +41,7 @@ hands = mp_hands.Hands(max_num_hands=1)
 mp_drawing = mp.solutions.drawing_utils
 
 # OpenCV video capture
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("http://192.168.29.69:4747/video?640x480")
 
 # Game loop
 running = True

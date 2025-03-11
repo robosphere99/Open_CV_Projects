@@ -35,7 +35,7 @@ def is_correct_lift(landmarks):
     return False
 
 # Initialize webcam feed
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(3)
 
 # Set up the pose tracking model
 with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as pose:

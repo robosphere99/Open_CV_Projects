@@ -8,7 +8,7 @@ def hello(x):
 	print("")
 
 #initialisation of the camera
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(3)
 bars = cv2.namedWindow("bars")
 
 cv2.createTrackbar("upper_hue","bars",110,180,hello)
